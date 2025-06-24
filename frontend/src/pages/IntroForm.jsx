@@ -12,6 +12,7 @@ const IntroForm = () => {
   const [email, setEmail] = useState("");
   const [focus, setFocus] = useState("");
   const [progress, setProgress] = useState("");
+  const [error, setError] = useState(null);
 
   const navigate = useNavigate();
 
@@ -19,6 +20,10 @@ const IntroForm = () => {
   const submitForm = async () => {
     try {
     console.log(firstName, lastName, age, email, focus, progress);
+    if (firstName == "" || lastName == "" || age == "" || email == "" || focus == "" || progress == "") {
+      setError("You must answer all fields!");
+      return;
+    }
     const data = {
       firstName: firstName,
       lastName: lastName,
@@ -32,6 +37,7 @@ const IntroForm = () => {
     console.log(response);
     navigate('/finished')
     } catch (e) {
+      setError("Something went wrong while submitting the form...")
       console.log(e);
     }
   }
@@ -190,6 +196,7 @@ const IntroForm = () => {
               await submitForm()
             }}
           >Submit</button>
+          {error && <div className="w-[275px] text-center text-3xl font-montserrat text-red-500">{error}</div>}
         </div>
     </div>
   )
