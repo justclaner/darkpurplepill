@@ -1,5 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import 'dotenv/config'
 import cors from 'cors'
 
 const allowCors = (req, res, next) => {
@@ -19,6 +20,17 @@ const allowCors = (req, res, next) => {
 
   const app = express();
   const port = 5000;
+  const uri = process.env.MONGO_URI;
 
   app.use(express.json());
   app.use(allowCors);
+
+  app.listen(port, () => {
+    console.log(`Server started on port ${port}`);
+  });
+
+  mongoose.connect(uri).then(() => {
+    console.log(`Connected to MongoDB Project "Dark Purple Pill" Cluster "introform"`)
+  }).catch((e) => {
+    console.log(e)
+  });
